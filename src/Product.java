@@ -1,5 +1,4 @@
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,14 +25,14 @@ public class Product {
     }
 
     public String getPrice() {
-        if(name.equals("music CD"))
+        if(isTaxable())
             return calcolateTaxedPrice().toString();
 
         return price.toString();
     }
 
     public String getTaxes() {
-        if(name.equals("music CD"))
+        if(isTaxable())
             return calcolateTaxAmount().toString();
 
         return "0.00";
@@ -56,6 +55,10 @@ public class Product {
 
     private BigDecimal roundAmount(BigDecimal amount) {
         return amount.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+    }
+
+    private boolean isTaxable() {
+        return name.equals("music CD");
     }
 
     private Product() { }
