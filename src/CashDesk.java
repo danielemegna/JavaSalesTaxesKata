@@ -8,8 +8,13 @@ public class CashDesk {
     public String produceReceipt() {
         String[] splittedProduct = product.split(" ");
         String quantity = splittedProduct[0];
-        String name = splittedProduct[1];
-        String price = splittedProduct[3];
+
+        String name = "";
+        for(int i = 1; i < splittedProduct.length - 2; i++)
+            name += splittedProduct[i] + " ";
+        name = name.trim();
+
+        String price = splittedProduct[splittedProduct.length-1];
 
         return
             quantity + " " + name + ": " + price + " " +

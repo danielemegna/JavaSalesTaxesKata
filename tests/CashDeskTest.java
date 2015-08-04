@@ -17,4 +17,18 @@ public class CashDeskTest {
 
         assertEquals(expected, receipt);
     }
+
+    @Test
+    public void sellingOneChocolateBar() {
+        CashDesk cs = new CashDesk();
+        cs.scanProduct("1 chocolate bar at 0.85");
+
+        String expected =
+            "1 chocolate bar: 0.85" + " " +
+            "Sales Taxes: 0.00" + " " +
+            "Total: 0.85";
+        String receipt = cs.produceReceipt();
+
+        assertEquals(expected, receipt);
+    }
 }
