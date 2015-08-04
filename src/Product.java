@@ -24,18 +24,18 @@ public class Product {
         return result;
     }
 
-    public String getPrice() {
+    public BigDecimal getPrice() {
         if(isTaxable())
-            return calcolateTaxedPrice().toString();
+            return calcolateTaxedPrice();
 
-        return price.toString();
+        return price;
     }
 
-    public String getTaxes() {
+    public BigDecimal getTaxes() {
         if(isTaxable())
-            return calcolateTaxAmount().toString();
+            return calcolateTaxAmount();
 
-        return "0.00";
+        return roundAmount(new BigDecimal(0));
     }
 
     @Override
@@ -53,7 +53,7 @@ public class Product {
         return roundAmount(taxedPrice);
     }
 
-    private BigDecimal roundAmount(BigDecimal amount) {
+    private static BigDecimal roundAmount(BigDecimal amount) {
         return amount.setScale(2, BigDecimal.ROUND_HALF_EVEN);
     }
 

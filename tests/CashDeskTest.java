@@ -48,6 +48,20 @@ public class CashDeskTest {
         assertReceipt(expected);
     }
 
+    @Test
+    public void sellingTwoProducts() {
+        cashDesk.scanProduct("1 book at 12.49");
+        cashDesk.scanProduct("1 music CD at 14.99");
+
+        String expected =
+            "1 book: 12.49" + " " +
+            "1 music CD: 16.49" + " " +
+            "Sales Taxes: 1.50" + " " +
+            "Total: 28.98";
+
+        assertReceipt(expected);
+    }
+
     private void assertReceipt(String expected) {
         String receipt = cashDesk.produceReceipt();
         assertEquals(expected, receipt);
