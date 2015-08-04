@@ -1,22 +1,26 @@
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Product {
+
+    private static final String PRODUCT_FIELDS_EXTRACTION_REGEX = "([0-9]+) (.*) at (.*)";
+
     private String quantity;
     private String name;
     private String price;
 
     public static Product build(String product) {
-        Product p = new Product();
+        Matcher matcher = Pattern
+            .compile(PRODUCT_FIELDS_EXTRACTION_REGEX)
+            .matcher(product);
 
-        String[] splittedProduct = product.split(" ");
-        p.quantity = splittedProduct[0];
+        matcher.matches();
 
-        p.name = "";
-        for(int i = 1; i < splittedProduct.length - 2; i++)
-            p.name += splittedProduct[i] + " ";
-        p.name = p.name.trim();
-
-        p.price = splittedProduct[splittedProduct.length-1];
-
-        return p;
+        Product result = new Product();
+        result.quantity = matcher.group(1);
+        result.name = matcher.group(2);
+        result.price = matcher.group(3);
+        return result;
     }
 
     public String getPrice() {
