@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,7 +9,7 @@ public class Product {
 
     private String quantity;
     private String name;
-    private String price;
+    private BigDecimal price;
 
     public static Product build(String product) {
         Matcher matcher = Pattern
@@ -19,15 +21,19 @@ public class Product {
         Product result = new Product();
         result.quantity = matcher.group(1);
         result.name = matcher.group(2);
-        result.price = matcher.group(3);
+        result.price = new BigDecimal(matcher.group(3));
         return result;
     }
 
     public String getPrice() {
-        if(name.equals("music CD"))
-            return "16.49";
+        if(name.equals("music CD")) {
+            BigDecimal taxAmount = price.divide(new BigDecimal(10));
+            BigDecimal taxedPrice = price.add(taxAmount);
+            taxedPrice = taxedPrice.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+            return taxedPrice.toString();
+        }
 
-        return price;
+        return price.toString();
     }
 
     @Override
@@ -36,8 +42,11 @@ public class Product {
     }
 
     public String getTaxes() {
-        if(name.equals("music CD"))
-            return "1.50";
+        if(name.equals("music CD")) {
+            BigDecimal taxAmount = price.divide(new BigDecimal(10));
+            taxAmount = taxAmount.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+            return taxAmount.toString();
+        }
 
         return "0.00";
     }
