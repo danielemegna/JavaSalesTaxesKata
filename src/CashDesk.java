@@ -1,6 +1,7 @@
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CashDesk {
     private List<Product> products = new ArrayList<>();
@@ -10,15 +11,18 @@ public class CashDesk {
     }
 
     public String produceReceipt() {
-        StringBuilder productsDescriptions = new StringBuilder();
-        BigDecimal salesTaxes = new BigDecimal(0);
-        BigDecimal total = new BigDecimal(0);
 
-        for(Product p : products) {
-            productsDescriptions.append(p.toString() + " ");
-            salesTaxes = salesTaxes.add(p.getTaxes());
-            total = total.add(p.getPrice());
-        }
+        String productsDescriptions = products.stream()
+            .map(Product::toString)
+            .collect(Collectors.joining(" "));
+
+        BigDecimal salesTaxes = products.stream()
+            .map(Product::getTaxes)
+            .reduce(new BigDecimal(0), (a, b) -> a = a.add(b));
+
+        BigDecimal total = products.stream()
+            .map(Product::getPrice)
+            .reduce(new BigDecimal(0), (a, b) -> a = a.add(b));
 
         return String.format(
             "%s Sales Taxes: %s Total: %s",
