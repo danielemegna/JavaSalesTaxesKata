@@ -26,14 +26,17 @@ public class Product {
     }
 
     public String getPrice() {
-        if(name.equals("music CD")) {
-            BigDecimal taxAmount = price.divide(new BigDecimal(10));
-            BigDecimal taxedPrice = price.add(taxAmount);
-            taxedPrice = taxedPrice.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-            return taxedPrice.toString();
-        }
+        if(name.equals("music CD"))
+            return calcolateTaxedPrice().toString();
 
         return price.toString();
+    }
+
+    public String getTaxes() {
+        if(name.equals("music CD"))
+            return calcolateTaxAmount().toString();
+
+        return "0.00";
     }
 
     @Override
@@ -41,13 +44,17 @@ public class Product {
         return quantity + " " + name + ": " + getPrice();
     }
 
-    public String getTaxes() {
-        if(name.equals("music CD")) {
-            BigDecimal taxAmount = price.divide(new BigDecimal(10));
-            taxAmount = taxAmount.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-            return taxAmount.toString();
-        }
+    private BigDecimal calcolateTaxAmount() {
+        BigDecimal taxAmount = price.divide(new BigDecimal(10));
+        return roundAmount(taxAmount);
+    }
 
-        return "0.00";
+    private BigDecimal calcolateTaxedPrice() {
+        BigDecimal taxedPrice = price.add(calcolateTaxAmount());
+        return roundAmount(taxedPrice);
+    }
+
+    private BigDecimal roundAmount(BigDecimal amount) {
+        return amount.setScale(2, BigDecimal.ROUND_HALF_EVEN);
     }
 }
