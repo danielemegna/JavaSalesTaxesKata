@@ -8,7 +8,7 @@ public class CashDesk {
     public String produceReceipt() {
         return
             product.toString() + " " +
-            "Sales Taxes: 0.00" + " " +
+            "Sales Taxes: " + product.getTaxes() + " " +
             "Total: " + product.getPrice();
     }
 

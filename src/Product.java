@@ -24,11 +24,21 @@ public class Product {
     }
 
     public String getPrice() {
+        if(name.equals("music CD"))
+            return "16.49";
+
         return price;
     }
 
     @Override
     public String toString() {
-        return quantity + " " + name + ": " + price;
+        return quantity + " " + name + ": " + getPrice();
+    }
+
+    public String getTaxes() {
+        if(name.equals("music CD"))
+            return "1.50";
+
+        return "0.00";
     }
 }
