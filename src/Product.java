@@ -57,4 +57,6 @@ public class Product {
     private BigDecimal roundAmount(BigDecimal amount) {
         return amount.setScale(2, BigDecimal.ROUND_HALF_EVEN);
     }
+
+    private Product() { }
 }
