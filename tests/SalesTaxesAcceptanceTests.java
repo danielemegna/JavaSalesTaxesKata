@@ -1,3 +1,4 @@
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -5,7 +6,7 @@ import static org.junit.Assert.*;
 public class SalesTaxesAcceptanceTests {
 
     @Test
-
+    @Ignore
     public void Input1AcceptanceTest() {
         String input =
             "1 book at 12.49" + " " +
@@ -22,6 +23,7 @@ public class SalesTaxesAcceptanceTests {
     }
 
     @Test
+    @Ignore
     public void Input2AcceptanceTest() {
         String input =
             "1 imported box of chocolates at 10.00" + " " +
@@ -36,6 +38,7 @@ public class SalesTaxesAcceptanceTests {
     }
 
     @Test
+    @Ignore
     public void Input3AcceptanceTest() {
         String input =
             "1 imported bottle of perfume at 27.99" + " " +
@@ -51,7 +54,6 @@ public class SalesTaxesAcceptanceTests {
             "Total: 74.68";
 
         assertSalesTaxesAT(input, expected);
-
     }
 
     private void assertSalesTaxesAT(String input, String expected) {
