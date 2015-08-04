@@ -20,12 +20,12 @@ public class CashDesk {
             total = total.add(p.getPrice());
         }
 
-        StringBuilder receipt = new StringBuilder()
-            .append(productsDescriptions)
-            .append("Sales Taxes: " + salesTaxes + " ")
-            .append("Total: " + total);
-
-        return receipt.toString();
+        return String.format(
+            "%s Sales Taxes: %s Total: %s",
+            productsDescriptions.toString().trim(),
+            salesTaxes,
+            total
+        );
     }
 
     public void scanProduct(String product) {
