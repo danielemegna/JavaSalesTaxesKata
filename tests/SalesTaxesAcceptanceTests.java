@@ -6,7 +6,6 @@ import static org.junit.Assert.*;
 public class SalesTaxesAcceptanceTests {
 
     @Test
-    @Ignore
     public void Input1AcceptanceTest() {
         String input =
             "1 book at 12.49" + " " +
@@ -57,7 +56,7 @@ public class SalesTaxesAcceptanceTests {
     }
 
     private void assertSalesTaxesAT(String input, String expected) {
-        CashDesk cd = CashDesk.build(input);
+        CashDesk cd = CashDesk.build(input, new ReceiptPrinter());
         String receipt = cd.produceReceipt();
         assertEquals(expected, receipt);
     }

@@ -1,7 +1,11 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CashDesk {
+
+    private static final String PRODUCT_BLOCK_REGEX = "[0-9]+ .*? at [0-9]+\\.[0-9]{2}";
 
     private ReceiptPrinter receiptPrinter;
     private List<Product> products;
@@ -20,7 +24,18 @@ public class CashDesk {
         this.products.add(p);
     }
 
-    public static CashDesk build(String products) {
-        return null;
+    public static CashDesk build(String products, ReceiptPrinter receiptPrinter) {
+        CashDesk result = new CashDesk(receiptPrinter);
+
+        Matcher matcher = Pattern
+            .compile(PRODUCT_BLOCK_REGEX)
+            .matcher(products);
+
+        while(matcher.find()) {
+            result.scanProduct(matcher.group());
+        }
+
+
+        return result;
     }
 }
