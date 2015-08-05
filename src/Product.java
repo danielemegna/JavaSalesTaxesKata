@@ -15,7 +15,11 @@ public class Product {
 
     @Override
     public String toString() {
-        return quantity + " " + name + ": " + getTaxedPrice();
+        return 
+            quantity + " " +
+            getImportedLabel() +
+            getSanitizedName() + ": "+
+            getTaxedPrice();
     }
 
     public BigDecimal getTaxedPrice() {
@@ -36,7 +40,7 @@ public class Product {
     }
 
     private boolean isImported() {
-        return name.contains("imported");
+        return name.contains("imported ");
     }
 
     private BigDecimal roundAmountToTheNearestFiveCents(BigDecimal taxes) {
@@ -50,5 +54,13 @@ public class Product {
         return
             name.contains("music CD") ||
             name.contains("perfume");
+    }
+
+    private String getImportedLabel() {
+        return isImported() ? "imported " : "";
+    }
+
+    private String getSanitizedName() {
+        return name.replace("imported ", "");
     }
 }

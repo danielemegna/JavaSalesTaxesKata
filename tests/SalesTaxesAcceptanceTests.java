@@ -36,7 +36,6 @@ public class SalesTaxesAcceptanceTests {
     }
 
     @Test
-    @Ignore
     public void Input3AcceptanceTest() {
         String input =
             "1 imported bottle of perfume at 27.99" + " " +
