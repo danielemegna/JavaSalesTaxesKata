@@ -22,7 +22,6 @@ public class SalesTaxesAcceptanceTests {
     }
 
     @Test
-    @Ignore
     public void Input2AcceptanceTest() {
         String input =
             "1 imported box of chocolates at 10.00" + " " +
