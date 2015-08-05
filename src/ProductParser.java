@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 public class ProductParser {
 
     private static final String PRODUCTSTRING_COMPOSITION_REGEX = "([0-9]+) (.*?) at ([0-9]+\\.[0-9]{2})";
+    public static final String IMPORTED_PRODUCT_LABEL = "imported ";
 
     public List<String> splitProductsString(String products) {
         List<String> result = new ArrayList<>();
@@ -29,9 +30,14 @@ public class ProductParser {
         matcher.matches();
 
         String quantity     = matcher.group(1);
-        String name         = matcher.group(2);
+        String name         = sanitizeProductName(matcher.group(2));
         BigDecimal price    = new BigDecimal(matcher.group(3));
+        boolean isImported  = matcher.group(2).contains(IMPORTED_PRODUCT_LABEL);
 
-        return new Product(quantity, name, price);
+        return new Product(quantity, name, price, isImported);
+    }
+
+    private String sanitizeProductName(String name) {
+        return name.replace(IMPORTED_PRODUCT_LABEL, "");
     }
 }

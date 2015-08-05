@@ -6,11 +6,13 @@ public class Product {
     private String quantity;
     private String name;
     private BigDecimal netPrice;
+    private boolean isImported;
 
-    public Product(String quantity, String name, BigDecimal netPrice) {
+    public Product(String quantity, String name, BigDecimal netPrice, boolean isImported) {
         this.quantity = quantity;
         this.name = name;
         this.netPrice = netPrice;
+        this.isImported = isImported;
     }
 
     @Override
@@ -18,7 +20,7 @@ public class Product {
         return 
             quantity + " " +
             getImportedLabel() +
-            getSanitizedName() + ": "+
+            name + ": "+
             getTaxedPrice();
     }
 
@@ -33,14 +35,10 @@ public class Product {
 
         if(isStandardTaxable())
             taxes = taxes.add(netPrice.multiply(BigDecimal.valueOf(0.10)));
-        if(isImported())
+        if(isImported)
             taxes = taxes.add(netPrice.multiply(BigDecimal.valueOf(0.05)));
 
         return roundAmountToTheNearestFiveCents(taxes);
-    }
-
-    private boolean isImported() {
-        return name.contains("imported ");
     }
 
     private BigDecimal roundAmountToTheNearestFiveCents(BigDecimal taxes) {
@@ -57,10 +55,6 @@ public class Product {
     }
 
     private String getImportedLabel() {
-        return isImported() ? "imported " : "";
-    }
-
-    private String getSanitizedName() {
-        return name.replace("imported ", "");
+        return isImported ? "imported " : "";
     }
 }
