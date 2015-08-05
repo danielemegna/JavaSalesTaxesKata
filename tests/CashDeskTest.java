@@ -10,13 +10,14 @@ public class CashDeskTest {
     @Before
     public void setup() {
         cashDesk = new CashDesk(
-            new ReceiptPrinter()
+            new ReceiptPrinter(),
+            new ProductStringParser()
         );
     }
 
     @Test
     public void sellingOneBook() {
-        cashDesk.scanProduct("1 book at 12.49");
+        cashDesk.scanProducts("1 book at 12.49");
 
         String expected =
             "1 book: 12.49" + " " +
@@ -28,7 +29,7 @@ public class CashDeskTest {
 
     @Test
     public void sellingOneChocolateBar() {
-        cashDesk.scanProduct("1 chocolate bar at 0.85");
+        cashDesk.scanProducts("1 chocolate bar at 0.85");
 
         String expected =
             "1 chocolate bar: 0.85" + " " +
@@ -40,7 +41,7 @@ public class CashDeskTest {
 
     @Test
     public void sellingOneMusicCD() {
-        cashDesk.scanProduct("1 music CD at 14.99");
+        cashDesk.scanProducts("1 music CD at 14.99");
 
         String expected =
             "1 music CD: 16.49" + " " +
@@ -52,8 +53,8 @@ public class CashDeskTest {
 
     @Test
     public void sellingTwoProducts() {
-        cashDesk.scanProduct("1 book at 12.49");
-        cashDesk.scanProduct("1 music CD at 14.99");
+        cashDesk.scanProducts("1 book at 12.49");
+        cashDesk.scanProducts("1 music CD at 14.99");
 
         String expected =
             "1 book: 12.49" + " " +
