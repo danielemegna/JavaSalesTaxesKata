@@ -9,7 +9,9 @@ public class CashDeskTest {
 
     @Before
     public void setup() {
-        cashDesk = new CashDesk();
+        cashDesk = new CashDesk(
+            new ReceiptPrinter()
+        );
     }
 
     @Test
