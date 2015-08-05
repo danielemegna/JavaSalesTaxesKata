@@ -41,7 +41,7 @@ public class Product {
 
     private BigDecimal roundAmountToTheNearestFiveCents(BigDecimal taxes) {
         return taxes
-            .divide(BigDecimal.valueOf(0.05), 0, RoundingMode.HALF_UP)
+            .divide(BigDecimal.valueOf(0.05), 0, RoundingMode.UP)
             .multiply(BigDecimal.valueOf(0.05))
             .setScale(2);
     }
