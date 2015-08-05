@@ -5,29 +5,29 @@ public class Product {
 
     private String quantity;
     private String name;
-    private BigDecimal price;
+    private BigDecimal netPrice;
 
-    public Product(String quantity, String name, BigDecimal price) {
+    public Product(String quantity, String name, BigDecimal netPrice) {
         this.quantity = quantity;
         this.name = name;
-        this.price = price;
+        this.netPrice = netPrice;
     }
 
     public BigDecimal getTaxes() {
         return setDecimalScale(
-            isTaxable() ? price.divide(BigDecimal.TEN) : BigDecimal.ZERO
+            isTaxable() ? netPrice.divide(BigDecimal.TEN) : BigDecimal.ZERO
         );
     }
 
-    public BigDecimal getPrice() {
+    public BigDecimal getTaxedPrice() {
         return setDecimalScale(
-            price.add(getTaxes())
+            netPrice.add(getTaxes())
         );
     }
 
     @Override
     public String toString() {
-        return quantity + " " + name + ": " + getPrice();
+        return quantity + " " + name + ": " + getTaxedPrice();
     }
 
     private static BigDecimal setDecimalScale(BigDecimal amount) {

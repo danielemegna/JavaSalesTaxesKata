@@ -15,7 +15,7 @@ public class ReceiptPrinter {
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal total = products.stream()
-            .map(Product::getPrice)
+            .map(Product::getTaxedPrice)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         return String.format(
