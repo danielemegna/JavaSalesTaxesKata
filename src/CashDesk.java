@@ -26,7 +26,7 @@ public class CashDesk {
 
         return String.format(
             "%s Sales Taxes: %s Total: %s",
-            productsDescriptions.toString().trim(),
+            productsDescriptions,
             salesTaxes,
             total
         );
