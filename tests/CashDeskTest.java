@@ -11,7 +11,7 @@ public class CashDeskTest {
     public void setup() {
         cashDesk = new CashDesk(
             new ReceiptPrinter(),
-            new ProductStringParser()
+            new ProductParser()
         );
     }
 

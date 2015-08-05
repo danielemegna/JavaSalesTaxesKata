@@ -5,17 +5,18 @@ import java.util.stream.Collectors;
 public class ReceiptPrinter {
 
     public String print(List<Product> products) {
+
         String productsDescriptions = products.stream()
             .map(Product::toString)
             .collect(Collectors.joining(" "));
 
         BigDecimal salesTaxes = products.stream()
             .map(Product::getTaxes)
-            .reduce(new BigDecimal(0), (a, b) -> a = a.add(b));
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal total = products.stream()
             .map(Product::getPrice)
-            .reduce(new BigDecimal(0), (a, b) -> a = a.add(b));
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         return String.format(
             "%s Sales Taxes: %s Total: %s",

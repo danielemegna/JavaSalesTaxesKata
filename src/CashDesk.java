@@ -4,12 +4,12 @@ import java.util.List;
 public class CashDesk {
 
     private ReceiptPrinter receiptPrinter;
-    private ProductStringParser productStringParser;
+    private ProductParser productParser;
     private List<Product> products;
 
-    public CashDesk(ReceiptPrinter receiptPrinter, ProductStringParser productStringParser) {
+    public CashDesk(ReceiptPrinter receiptPrinter, ProductParser productParser) {
         this.receiptPrinter = receiptPrinter;
-        this.productStringParser = productStringParser;
+        this.productParser = productParser;
         this.products = new ArrayList<>();
     }
 
@@ -18,13 +18,13 @@ public class CashDesk {
     }
 
     public void scanProducts(String productsString) {
-        List<String> products = productStringParser.splitProductsString(productsString);
+        List<String> products = productParser.splitProductsString(productsString);
         for(String product : products)
             scanSingleProduct(product);
     }
 
     private void scanSingleProduct(String product) {
-        Product p = productStringParser.productFromString(product);
+        Product p = productParser.productFromString(product);
         this.products.add(p);
     }
 }

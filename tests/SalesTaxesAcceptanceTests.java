@@ -58,7 +58,7 @@ public class SalesTaxesAcceptanceTests {
     private void assertSalesTaxesAT(String input, String expected) {
         CashDesk cd = new CashDesk(
             new ReceiptPrinter(),
-            new ProductStringParser()
+            new ProductParser()
         );
 
         cd.scanProducts(input);

@@ -13,18 +13,16 @@ public class Product {
         this.price = price;
     }
 
-    public BigDecimal getPrice() {
-        if(isTaxable())
-            return calcolateTaxedPrice();
-
-        return price;
+    public BigDecimal getTaxes() {
+        return setDecimalScale(
+            isTaxable() ? price.divide(BigDecimal.TEN) : BigDecimal.ZERO
+        );
     }
 
-    public BigDecimal getTaxes() {
-        if(isTaxable())
-            return calcolateTaxAmount();
-
-        return roundAmount(new BigDecimal(0));
+    public BigDecimal getPrice() {
+        return setDecimalScale(
+            price.add(getTaxes())
+        );
     }
 
     @Override
@@ -32,17 +30,7 @@ public class Product {
         return quantity + " " + name + ": " + getPrice();
     }
 
-    private BigDecimal calcolateTaxAmount() {
-        BigDecimal taxAmount = price.divide(new BigDecimal(10));
-        return roundAmount(taxAmount);
-    }
-
-    private BigDecimal calcolateTaxedPrice() {
-        BigDecimal taxedPrice = price.add(calcolateTaxAmount());
-        return roundAmount(taxedPrice);
-    }
-
-    private static BigDecimal roundAmount(BigDecimal amount) {
+    private static BigDecimal setDecimalScale(BigDecimal amount) {
         return amount.setScale(2, BigDecimal.ROUND_HALF_EVEN);
     }
 
