@@ -77,6 +77,18 @@ public class CashDeskTest {
         assertReceipt(expected);
     }
 
+    @Test
+    public void sellingAnImportedStandardTaxableProduct() {
+        cashDesk.scanProducts("1 imported bottle of perfume at 47.50");
+
+        String expected =
+            "1 imported bottle of perfume: 54.65" + " " +
+            "Sales Taxes: 7.15" + " " +
+            "Total: 54.65";
+
+        assertReceipt(expected);
+    }
+
     private void assertReceipt(String expected) {
         String receipt = cashDesk.produceReceipt();
         assertEquals(expected, receipt);

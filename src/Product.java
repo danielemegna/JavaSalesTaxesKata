@@ -1,4 +1,5 @@
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Product {
 
@@ -12,6 +13,17 @@ public class Product {
         this.netPrice = netPrice;
     }
 
+    @Override
+    public String toString() {
+        return quantity + " " + name + ": " + getTaxedPrice();
+    }
+
+    public BigDecimal getTaxedPrice() {
+        return netPrice
+            .add(getTaxes())
+            .setScale(2, BigDecimal.ROUND_HALF_EVEN);
+    }
+
     public BigDecimal getTaxes() {
         BigDecimal taxes = BigDecimal.ZERO;
 
@@ -20,29 +32,23 @@ public class Product {
         if(isImported())
             taxes = taxes.add(netPrice.multiply(BigDecimal.valueOf(0.05)));
 
-        return setDecimalScale(taxes);
+        return roundAmountToTheNearestFiveCents(taxes);
     }
 
     private boolean isImported() {
         return name.contains("imported");
     }
 
-    public BigDecimal getTaxedPrice() {
-        return setDecimalScale(
-            netPrice.add(getTaxes())
-        );
-    }
-
-    @Override
-    public String toString() {
-        return quantity + " " + name + ": " + getTaxedPrice();
-    }
-
-    private static BigDecimal setDecimalScale(BigDecimal amount) {
-        return amount.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+    private BigDecimal roundAmountToTheNearestFiveCents(BigDecimal taxes) {
+        return taxes
+            .divide(BigDecimal.valueOf(0.05), 0, RoundingMode.HALF_UP)
+            .multiply(BigDecimal.valueOf(0.05))
+            .setScale(2);
     }
 
     private boolean isStandardTaxable() {
-        return name.equals("music CD");
+        return
+            name.contains("music CD") ||
+            name.contains("perfume");
     }
 }
