@@ -2,7 +2,6 @@ import java.math.BigDecimal;
 
 public class Product {
 
-
     private String quantity;
     private String name;
     private BigDecimal netPrice;
@@ -14,9 +13,18 @@ public class Product {
     }
 
     public BigDecimal getTaxes() {
-        return setDecimalScale(
-            isTaxable() ? netPrice.divide(BigDecimal.TEN) : BigDecimal.ZERO
-        );
+        BigDecimal taxes = BigDecimal.ZERO;
+
+        if(isStandardTaxable())
+            taxes = taxes.add(netPrice.multiply(BigDecimal.valueOf(0.10)));
+        if(isImported())
+            taxes = taxes.add(netPrice.multiply(BigDecimal.valueOf(0.05)));
+
+        return setDecimalScale(taxes);
+    }
+
+    private boolean isImported() {
+        return name.contains("imported");
     }
 
     public BigDecimal getTaxedPrice() {
@@ -34,7 +42,7 @@ public class Product {
         return amount.setScale(2, BigDecimal.ROUND_HALF_EVEN);
     }
 
-    private boolean isTaxable() {
+    private boolean isStandardTaxable() {
         return name.equals("music CD");
     }
 }
