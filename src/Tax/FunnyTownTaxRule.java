@@ -17,14 +17,9 @@ public class FunnyTownTaxRule implements TaxRule {
 
     @Override
     public BigDecimal calcolateInflationRate(Category category, boolean isImported) {
-        BigDecimal inflationRate = BigDecimal.ZERO;
-
-        if(isStandardTaxable(category))
-            inflationRate = inflationRate.add(STANDARD_INFLATION_RATE);
-        if(isImported)
-            inflationRate = inflationRate.add(IMPORTED_PRODUCTS_INFLATION_RATE);
-
-        return inflationRate;
+        return BigDecimal.ZERO
+            .add(isStandardTaxable(category) ? STANDARD_INFLATION_RATE : BigDecimal.ZERO)
+            .add(isImported ? IMPORTED_PRODUCTS_INFLATION_RATE : BigDecimal.ZERO);
     }
 
     private boolean isStandardTaxable(Category category) {
