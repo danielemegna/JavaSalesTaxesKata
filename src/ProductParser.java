@@ -9,7 +9,7 @@ public class ProductParser {
     private static final String PRODUCTSTRING_COMPOSITION_REGEX = "([0-9]+) (.*?) at ([0-9]+\\.[0-9]{2})";
     public static final String IMPORTED_PRODUCT_LABEL = "imported ";
 
-    public List<String> splitProductsString(String products) {
+    public static List<String> splitProductsString(String products) {
         List<String> result = new ArrayList<>();
 
         Matcher matcher = Pattern
@@ -22,7 +22,7 @@ public class ProductParser {
         return result;
     }
 
-    public Product productFromString(String product) {
+    public static Product productFromString(String product) {
         Matcher matcher = Pattern
             .compile(PRODUCTSTRING_COMPOSITION_REGEX)
             .matcher(product);
@@ -37,7 +37,7 @@ public class ProductParser {
         return new Product(quantity, name, price, isImported);
     }
 
-    private String sanitizeProductName(String name) {
+    private static String sanitizeProductName(String name) {
         return name.replace(IMPORTED_PRODUCT_LABEL, "");
     }
 }

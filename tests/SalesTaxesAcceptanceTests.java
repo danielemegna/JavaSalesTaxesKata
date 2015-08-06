@@ -1,4 +1,5 @@
-import org.junit.Ignore;
+import Category.FunnyTownProductCataloger;
+import Tax.FunnyTownTaxRule;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -56,7 +57,9 @@ public class SalesTaxesAcceptanceTests {
     private void assertSalesTaxesAT(String input, String expected) {
         CashDesk cd = new CashDesk(
             new ReceiptPrinter(),
-            new ProductParser()
+            new ProductParser(),
+            new FunnyTownTaxRule(),
+            new FunnyTownProductCataloger()
         );
 
         cd.scanProducts(input);

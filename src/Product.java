@@ -1,3 +1,7 @@
+import Category.Category;
+import Category.ProductCataloger;
+import Tax.TaxRule;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -8,11 +12,17 @@ public class Product {
     private BigDecimal netPrice;
     private boolean isImported;
 
+    private Category category;
+    private BigDecimal inflationRate;
+
     public Product(String quantity, String name, BigDecimal netPrice, boolean isImported) {
         this.quantity = quantity;
         this.name = name;
         this.netPrice = netPrice;
         this.isImported = isImported;
+
+        this.inflationRate = BigDecimal.ZERO;
+        this.category = Category.Generic;
     }
 
     @Override
@@ -31,14 +41,18 @@ public class Product {
     }
 
     public BigDecimal getTaxes() {
-        BigDecimal taxes = BigDecimal.ZERO;
-
-        if(isStandardTaxable())
-            taxes = taxes.add(netPrice.multiply(BigDecimal.valueOf(0.10)));
-        if(isImported)
-            taxes = taxes.add(netPrice.multiply(BigDecimal.valueOf(0.05)));
-
+        BigDecimal taxes = netPrice.multiply(inflationRate);
         return roundAmountToTheNearestFiveCents(taxes);
+    }
+
+    public Product applyCategory(ProductCataloger productCataloger) {
+        category = productCataloger.fromProductName(name);
+        return this;
+    }
+
+    public Product applyTaxRule(TaxRule taxRule) {
+        inflationRate = taxRule.calcolateInflationRate(category, isImported);
+        return this;
     }
 
     private BigDecimal roundAmountToTheNearestFiveCents(BigDecimal taxes) {
@@ -46,12 +60,6 @@ public class Product {
             .divide(BigDecimal.valueOf(0.05), 0, RoundingMode.UP)
             .multiply(BigDecimal.valueOf(0.05))
             .setScale(2);
-    }
-
-    private boolean isStandardTaxable() {
-        return
-            name.contains("music CD") ||
-            name.contains("perfume");
     }
 
     private String getImportedLabel() {

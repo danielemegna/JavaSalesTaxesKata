@@ -1,3 +1,5 @@
+import Category.FunnyTownProductCataloger;
+import Tax.FunnyTownTaxRule;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,7 +13,9 @@ public class CashDeskTest {
     public void setup() {
         cashDesk = new CashDesk(
             new ReceiptPrinter(),
-            new ProductParser()
+            new ProductParser(),
+            new FunnyTownTaxRule(),
+            new FunnyTownProductCataloger()
         );
     }
 

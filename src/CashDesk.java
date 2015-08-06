@@ -1,3 +1,6 @@
+import Category.ProductCataloger;
+import Tax.TaxRule;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -5,11 +8,17 @@ public class CashDesk {
 
     private ReceiptPrinter receiptPrinter;
     private ProductParser productParser;
+    private TaxRule taxRule;
+    private ProductCataloger productCataloger;
+
     private List<Product> products;
 
-    public CashDesk(ReceiptPrinter receiptPrinter, ProductParser productParser) {
-        this.receiptPrinter = receiptPrinter;
-        this.productParser = productParser;
+    public CashDesk(ReceiptPrinter rp, ProductParser pp, TaxRule tr, ProductCataloger pc) {
+        this.receiptPrinter = rp;
+        this.productParser = pp;
+        this.taxRule = tr;
+        this.productCataloger = pc;
+
         this.products = new ArrayList<>();
     }
 
@@ -18,13 +27,16 @@ public class CashDesk {
     }
 
     public void scanProducts(String productsString) {
-        List<String> products = productParser.splitProductsString(productsString);
-        for(String product : products)
+        for(String product : productParser.splitProductsString(productsString))
             scanSingleProduct(product);
     }
 
     private void scanSingleProduct(String product) {
-        Product p = productParser.productFromString(product);
+        Product p = productParser
+            .productFromString(product)
+            .applyCategory(productCataloger)
+            .applyTaxRule(taxRule);
+
         this.products.add(p);
     }
 }
