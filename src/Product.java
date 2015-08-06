@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 
 public class Product {
 
-    private String quantity;
+    private int quantity;
     private String name;
     private BigDecimal netPrice;
     private boolean isImported;
@@ -15,7 +15,7 @@ public class Product {
     private Category category;
     private BigDecimal inflationRate;
 
-    public Product(String quantity, String name, BigDecimal netPrice, boolean isImported) {
+    public Product(int quantity, String name, BigDecimal netPrice, boolean isImported) {
         this.quantity = quantity;
         this.name = name;
         this.netPrice = netPrice;
@@ -34,17 +34,6 @@ public class Product {
             getTaxedPrice();
     }
 
-    public BigDecimal getTaxedPrice() {
-        return netPrice
-            .add(getTaxes())
-            .setScale(2, BigDecimal.ROUND_HALF_EVEN);
-    }
-
-    public BigDecimal getTaxes() {
-        BigDecimal taxes = netPrice.multiply(inflationRate);
-        return roundAmountToTheNearestFiveCents(taxes);
-    }
-
     public Product applyCategory(ProductCataloger productCataloger) {
         category = productCataloger.fromProductName(name);
         return this;
@@ -53,6 +42,27 @@ public class Product {
     public Product applyTaxRule(TaxRule taxRule) {
         inflationRate = taxRule.calcolateInflationRate(category, isImported);
         return this;
+    }
+
+    public BigDecimal getTaxedPrice() {
+        return getUnitTaxedPrice()
+            .multiply(BigDecimal.valueOf(quantity));
+    }
+
+    public BigDecimal getTaxAmount() {
+        return getUnitTaxAmount()
+            .multiply(BigDecimal.valueOf(quantity));
+    }
+
+    private BigDecimal getUnitTaxedPrice() {
+        return netPrice
+            .add(getUnitTaxAmount())
+            .setScale(2, BigDecimal.ROUND_HALF_EVEN);
+    }
+
+    private BigDecimal getUnitTaxAmount() {
+        BigDecimal taxAmount = netPrice.multiply(inflationRate);
+        return roundAmountToTheNearestFiveCents(taxAmount);
     }
 
     private BigDecimal roundAmountToTheNearestFiveCents(BigDecimal taxes) {

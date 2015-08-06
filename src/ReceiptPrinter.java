@@ -11,7 +11,7 @@ public class ReceiptPrinter {
             .collect(Collectors.joining(" "));
 
         BigDecimal salesTaxes = products.stream()
-            .map(Product::getTaxes)
+            .map(Product::getTaxAmount)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal total = products.stream()

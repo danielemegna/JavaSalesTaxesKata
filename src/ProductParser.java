@@ -29,7 +29,7 @@ public class ProductParser {
 
         matcher.matches();
 
-        String quantity     = matcher.group(1);
+        int quantity        = Integer.valueOf(matcher.group(1));
         String name         = sanitizeProductName(matcher.group(2));
         BigDecimal price    = new BigDecimal(matcher.group(3));
         boolean isImported  = matcher.group(2).contains(IMPORTED_PRODUCT_LABEL);
