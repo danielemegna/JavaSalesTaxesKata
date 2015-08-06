@@ -122,6 +122,28 @@ public class CashDeskTest {
         assertReceipt(expected);
     }
 
+    @Test
+    public void sellingNewProducts() {
+        cashDesk.scanProducts("1 imported ratman comics at 2.50");
+        cashDesk.scanProducts("1 big bang theory DVD at 6.20");
+        cashDesk.scanProducts("2 imported aspririna packet at 6.80");
+        cashDesk.scanProducts("3 american coffee at 0.80");
+        cashDesk.scanProducts("2 chocolate croissant at 0.50");
+        cashDesk.scanProducts("1 imported vanilla coke bottle at 2.00");
+
+        String expected =
+            "1 imported ratman comics: 2.65" + " " +
+            "1 big bang theory DVD: 6.85" + " " +
+            "2 imported aspririna packet: 14.30" + " " +
+            "3 american coffee: 2.40" + " " +
+            "2 chocolate croissant: 1.00" + " " +
+            "1 imported vanilla coke bottle: 2.10" + " " +
+            "Sales Taxes: 1.60" + " " +
+            "Total: 29.30";
+
+        assertReceipt(expected);
+    }
+
     private void assertReceipt(String expected) {
         String receipt = cashDesk.produceReceipt();
         assertEquals(expected, receipt);
