@@ -4,7 +4,7 @@ import java.util.stream.Collectors;
 
 public class ReceiptPrinter {
 
-    public String print(List<Product> products) {
+    public String produce(List<Product> products) {
 
         String productsDescriptions = products.stream()
             .map(Product::toString)

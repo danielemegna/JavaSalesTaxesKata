@@ -11,7 +11,7 @@ public class CashDesk {
     private TaxRule taxRule;
     private ProductCataloger productCataloger;
 
-    private List<Product> products;
+    private List<Product> scannedProducts;
 
     public CashDesk(ReceiptPrinter rp, ProductParser pp, TaxRule tr, ProductCataloger pc) {
         this.receiptPrinter = rp;
@@ -19,11 +19,11 @@ public class CashDesk {
         this.taxRule = tr;
         this.productCataloger = pc;
 
-        this.products = new ArrayList<>();
+        this.scannedProducts = new ArrayList<>();
     }
 
     public String produceReceipt() {
-        return receiptPrinter.print(products);
+        return receiptPrinter.produce(scannedProducts);
     }
 
     public void scanProducts(String productsString) {
@@ -37,6 +37,6 @@ public class CashDesk {
             .applyCategory(productCataloger)
             .applyTaxRule(taxRule);
 
-        this.products.add(p);
+        this.scannedProducts.add(p);
     }
 }
