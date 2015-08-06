@@ -1,20 +1,24 @@
 package Category;
 
-public class FunnyTownProductCataloger implements ProductCataloger {
+import java.util.HashSet;
+
+public class FunnyTownProductCataloger extends ProductCataloger {
 
     @Override
-    public Category fromProductName(String name) {
+    protected void fillCategoryMapper() {
+        categoryMapper.put(Category.Book, new HashSet<String>() {{
+            add("book");
+        }});
 
-        if(name.contains("book"))
-            return Category.Book;
+        categoryMapper.put(Category.Food, new HashSet<String>() {{
+            add("box of chocolates");
+            add("chocolate bar");
+        }});
 
-        if(name.contains("chocolate"))
-            return Category.Food;
-
-        if(name.contains("headache"))
-            return Category.Medical;
-
-        return Category.Generic;
+        categoryMapper.put(Category.Medical, new HashSet<String>() {{
+            add("packet of headache pills");
+        }});
     }
+
 
 }
